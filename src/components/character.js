@@ -178,7 +178,7 @@ export default function character() {
     while (skills.length < 10) {
       if (globalPoints >= 40) {
         skill = 0;
-      } else skill = Math.floor(Math.random() * 11);
+      } else skill = Math.floor(Math.random() * 10) + 1;
       if (globalPoints + skill > 40) {
         skill = 40 - globalPoints;
       }
@@ -192,15 +192,112 @@ export default function character() {
 
   const trueRole = role[generateRole()];
 
+  const cyberOptic = [
+    "infrared (Инфракрасная оптика",
+    "Low lite",
+    "Camera (Камера)",
+    "Dartgan (Дротикомёт)",
+    "Anti dazzle (Защита от ослепления)",
+    "Targeting scope (Прицельный видоискатель)",
+  ];
+
+  const cyberArmWithGun = [
+    "Med. Pistol (Средний Пистолет)",
+    "Light Pistol (Лёгкий Пистолет)",
+    "Med. Pistol (Средний Пистолет",
+    "Light SMG (Лёгкий Пистолет-Пулемёт)",
+    "Very Heavy Pistol (Очень тяжёлый пистолет)",
+    "Heavy Pistol (Тяжёлый Пистолет)",
+  ];
+
+  const cyberAudio = [
+    "Wearman",
+    "Radio Link (Радио-коннектор)",
+    "Phon Splice (Телефонное соединение)",
+    "Amplified Hearing (Усиленный слух)",
+    "Sound Editing (Редактор звука)",
+    "Digital Recording link (Коннектор цифрового рекордера)",
+  ];
+
+  const cyberWare = [
+    "Big Knucks (Большие Костяшки)",
+    "Rippers (Потрошители)",
+    "Vampires (Вампиры)",
+    "Slice n'dice (Мономолекулярная нить)",
+    "Reflex Boost (Kereznikov)",
+    "Reflex Boost (Sandevistan)",
+    "Ничего",
+  ];
+
+  const tryCyberWare = [];
+
+  function cyberWareChoose(d10) {
+    let d6;
+    switch (d10) {
+      case 1:
+        d6 = Math.floor(Math.random() * 6);
+        tryCyberWare.push(cyberOptic[d6]);
+        break;
+      case 2:
+        d6 = Math.floor(Math.random() * 6);
+        tryCyberWare.push(cyberArmWithGun[d6]);
+        break;
+      case 3:
+        d6 = Math.floor(Math.random() * 6);
+        tryCyberWare.push(cyberAudio[d6]);
+        break;
+      case 4:
+        tryCyberWare.push(cyberWare[0]);
+        break;
+      case 5:
+        tryCyberWare.push(cyberWare[1]);
+        break;
+      case 6:
+        tryCyberWare.push(cyberWare[2]);
+        break;
+      case 7:
+        tryCyberWare.push(cyberWare[3]);
+        break;
+      case 8:
+        tryCyberWare.push(cyberWare[4]);
+        break;
+      case 9:
+        tryCyberWare.push(cyberWare[5]);
+        break;
+      case 10:
+        tryCyberWare.push(cyberWare[6]);
+        break;
+      default:
+        alert("Сколько граней на 10-ти гранном кубике? Верно! 11!");
+    }
+  }
+
+  function generateCyberEquipment(role) {
+    if (role === "Solos") {
+      for (let i = 0; i < 6; i++) {
+        const d10 = Math.floor(Math.random() * 10) + 1;
+        cyberWareChoose(d10);
+      }
+    } else {
+      for (let i = 0; i < 3; i++) {
+        const d10 = Math.floor(Math.random() * 10) + 1;
+        cyberWareChoose(d10);
+      }
+      for (let i = 0; i < 3; i++) {
+        tryCyberWare.push("");
+      }
+    }
+  }
+
   function generateArmor() {
-    trueArmor = Math.floor(Math.random() * 11);
+    trueArmor = Math.floor(Math.random() * 10) + 1;
     if (trueRole === "Solos") trueArmor += 3;
     if (trueRole === "Cops" || trueRole === "Nomads") trueArmor += 2;
     if (trueArmor > 10) trueArmor = 10;
   }
 
   function generateWeapon() {
-    trueWeapon = Math.floor(Math.random() * 11);
+    trueWeapon = Math.floor(Math.random() * 10) + 1;
     if (trueRole === "Solos") trueWeapon += 3;
     if (trueRole === "Cops" || trueRole === "Nomads") trueWeapon += 2;
     if (trueWeapon > 10) trueWeapon = 10;
@@ -245,6 +342,8 @@ export default function character() {
   generateSkills();
   generateArmor();
   generateWeapon();
+  generateCyberEquipment(trueRole);
+  // console.log(tryCyberWare);
 
   return (
     <div className="character">
@@ -375,6 +474,17 @@ export default function character() {
         </div>
         <div className="character__skills">
           {proffSkills[trueRole][9]} [{skills[9]}]
+        </div>
+      </div>
+      <div className="character__wrapper character__wrapper_vertical character__wrapper_cybernetics">
+        <div className="character__info character__info_title">CYBERNETICS</div>
+        <div className="character__wrapper character__wrapper_vertical character__wrapper_cybernetics">
+          <div className="character__cybernetics">{tryCyberWare[0]}</div>
+          <div className="character__cybernetics">{tryCyberWare[1]}</div>
+          <div className="character__cybernetics">{tryCyberWare[2]}</div>
+          <div className="character__cybernetics">{tryCyberWare[3]}</div>
+          <div className="character__cybernetics">{tryCyberWare[4]}</div>
+          <div className="character__cybernetics">{tryCyberWare[5]}</div>
         </div>
       </div>
     </div>

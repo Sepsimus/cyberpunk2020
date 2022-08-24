@@ -1,6 +1,6 @@
 .character{
   width: 500px;
-  height: 600px;
+  height: 695px;
   border: 2px solid black
 }
 
@@ -38,7 +38,7 @@
 }
 
 .character__info_title{
-  margin: 5px 0px 0px 5px;
+  margin: 5px;
   color: white;
   background-color: #020202;
   padding: 5px 10px;
@@ -84,4 +84,12 @@
 
 .character__equipment{
   margin: 5px 0px 0px 5px;
+}
+
+.character__cybernetics{
+  margin: 5px;
+}
+
+.character__wrapper_cybernetics{
+  height: auto;
 }
